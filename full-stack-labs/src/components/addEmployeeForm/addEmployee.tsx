@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useFormInput } from "../../hooks/useFormInput";
 import type { EmployeesDepartments } from "../../data/employeesAndDepartments";
 import "./addEmployee.css"
 
@@ -9,32 +9,29 @@ export function AddEmployeeForm({
     departments: string[];
     addEmployee: (employee: EmployeesDepartments) => void
 }) {
-    const [name, setName] = useState<string>("");
-    const [department, setDepartment] = useState<string>("");
-    const [error, setError] = useState<string>("");
+    const {name, setName, department, setDepartment, error, validateForm } = useFormInput();
 
     const formSubmit = (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setError("");
 
-        if(name.trim().length < 3) {
-            setError("Name must be longer then 3 characters.");
+        const isValid = validateForm({
+            nameValidator: (value) => 
+                value.trim().length < 3 ? "Name must be longer than 3 characters." : null,
+            departmentValidator: (value) => 
+                departments.includes(value) ? "Please select a department" : null ,
+        });
+
+        if(!isValid) {
             return;
         }
-
-        if(!departments.includes(department)) {
-            setError("Please select a department");
-            return;
-        }
-
+      
         addEmployee({name, department});
-        setName("");
-        setDepartment("");
 
     };
 
     return(
         <form onSubmit={formSubmit} className="addEmployee">
+            <h3>Add Employee</h3>
             <div className="inputField">
                 <label>Employee Name:</label>
                     <input
@@ -60,7 +57,8 @@ export function AddEmployeeForm({
             </div>
 
             <div>
-                {error && <p>{error}</p>}
+                {error?.name && <p>{error.name}</p>}
+                {error?.department && <p>{error.department}</p>}   
             </div>
             <input type="submit" className="submitButton"
             disabled={!name || !department}
