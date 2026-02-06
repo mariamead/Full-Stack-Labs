@@ -1,5 +1,5 @@
 
-export interface EmployeesDepartments {
+export type EmployeesDepartments ={
     name: string;
     department: string;
 }

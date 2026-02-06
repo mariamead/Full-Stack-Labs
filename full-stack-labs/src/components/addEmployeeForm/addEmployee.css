@@ -41,3 +41,8 @@
     background-color:  rgb(2, 2, 70);
     color: white;
 }
+
+.error {
+    font-weight: bold;
+    color: darkred;
+}

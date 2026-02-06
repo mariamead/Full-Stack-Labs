@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { EmployeesDepartments } from "../../data/employeesAndDepartments";
-import { employees } from "../../data/employeesAndDepartments"
+import type { EmployeesDepartments } from "../../apis/employeesAndDepartments";
+import { employees } from "../../apis/employeesAndDepartments"
 import { AddEmployeeForm } from "../addEmployeeForm/addEmployee";
 
 type Departments = Record<string, string[]>;
@@ -10,7 +10,7 @@ function EmployeeList() {
 
 
     const departments: Departments = {};
-    employeeList.map(employee => {
+    employeeList.forEach(employee => {
         if(!departments[employee.department]) {
             //makes empty array
             departments[employee.department] = [];

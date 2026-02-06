@@ -4,9 +4,9 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { Layout } from "./components/layout/layout";
 import EmployeeList from "./components/employeeList/employeeList";
-import type { Role } from "./data/leadershipManagement";
+import type { Role } from "./apis/leadershipManagement";
 import { OrganizationList } from "./components/organization/organization";
-import { organizationData } from "./data/leadershipManagement";
+import { organizationData } from "./apis/leadershipManagement";
 
 function App() {
 const [organizationList] = useState<Role[]>(organizationData);

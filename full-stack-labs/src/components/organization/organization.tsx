@@ -1,4 +1,4 @@
-import type { Role } from "../../data/leadershipManagement";
+import type { Role } from "../../apis/leadershipManagement";
 import { useState } from "react";
 import "./organization.css";
 
