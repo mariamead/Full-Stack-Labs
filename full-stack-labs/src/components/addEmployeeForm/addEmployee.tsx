@@ -63,7 +63,7 @@ export function AddEmployeeForm({
             </div>
 
             <input type="submit" className="submitButton"
-            disabled={!name || !department}
+            disabled={!name.value || !department.value}
             />
 
         </form>

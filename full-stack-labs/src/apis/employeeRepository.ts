@@ -8,7 +8,9 @@ export function fetchAllEmployees(): EmployeesDepartments[] {
 }
 
 //Grouping data here: Employees by their departments 
-export async function fetchEmployeesByDepartments(): Promise<Departments> {
+export function fetchEmployeesByDepartments(
+    employees: EmployeesDepartments[]
+): Departments {
     const departments: Departments = {};
 
     employees.forEach(employee => {
