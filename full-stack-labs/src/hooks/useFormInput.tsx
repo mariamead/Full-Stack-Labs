@@ -1,33 +1,35 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 
-type Validation = {
+export type Validation = {
     isValid: boolean;
     message?: string;
 }
 
 
 // Hook to handle state of form inputs
-export function useFormInput(initialValue = "") {
-    const [value, setValue] = useState<string>(initialValue);
-    const [message, setMessage] = useState<string | null>(null);
+export function useFormInput(
+    formServiceMethod: (initialValue: string) => Validation,
+    initialState: string= ""
+) {
+    const [value, setValue] = useState<string>(initialState);
+    const [message, setMessage] = useState<string | null |undefined>(null);
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setValue(event.target.value);
         setMessage(null);
     }
 
-    const validateForm = (
-        validator: (value: string) => string | null
-    ): Validation => {
-        const error = validator(value);
+    const validateForm = (): Validation => {
+        const error = formServiceMethod(value);
 
-        if(error) {
-            setMessage(error);
-            return { isValid: false, message: error}
+        if(!error.isValid) {
+            setMessage(error.message ?? null);
+            return { isValid: false, message: error.message ?? undefined}
         }
         setMessage(null);
         return {isValid: true};
+        
     }
     
 
@@ -36,7 +38,6 @@ export function useFormInput(initialValue = "") {
         onChange,
         setValue,
         message,
-        setMessage,
         validateForm
     };
 }

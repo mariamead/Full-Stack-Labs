@@ -19,7 +19,10 @@ export function fetchEmployeesByDepartments(
             departments[employee.department] = [];
         }
         // Adds each employee to their designated department
-        departments[employee.department].push(employee.name)
+        departments[employee.department] = [
+            ...departments[employee.department], 
+            employee.name
+        ];
     });
     return departments;
 }
@@ -33,5 +36,5 @@ export async function createEmployee(
         employees.push(newEmployee);
     }
 
-    return newEmployee; 
+    return {...newEmployee}; 
 }

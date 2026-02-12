@@ -1,6 +1,7 @@
 import type { EmployeesDepartments } from "../../apis/employeesAndDepartments";
 import { useFormInput } from "../../hooks/useFormInput";
 import "./addEmployee.css"
+import {validateDepartment, validateName} from "../../services/employeeService";
 
 export function AddEmployeeForm({
     departments,
@@ -9,18 +10,14 @@ export function AddEmployeeForm({
     departments: string[];
     addEmployee: (employee: EmployeesDepartments) => Promise<string | EmployeesDepartments | null>;
 }) {
-    const name = useFormInput();
-    const department = useFormInput();
+    const name = useFormInput(validateName);
+    const department = useFormInput(validateDepartment);
 
     const formSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const validateName = name.validateForm(
-            value => value.trim() === "" ? "Please Enter a Employee Name." : null
-        );
-        const validateDepartment = department.validateForm(
-            value => value === "" ? "Please Select a Department." : null
-        );
+        const validateName = name.validateForm();
+        const validateDepartment = department.validateForm();
 
         if(!validateName.isValid || !validateDepartment.isValid) {
             return;

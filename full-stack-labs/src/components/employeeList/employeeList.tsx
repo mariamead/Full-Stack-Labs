@@ -14,15 +14,22 @@ function EmployeeList() {
     const addEmployee = async (
         employee: EmployeesDepartments
     ): Promise<string | EmployeesDepartments> => {
+        try{
+            const result = await addEmployeeService(employee);
 
-        const result = await addEmployeeService(employee);
+            if (typeof result === "string") {
+                return result;
+            }
 
-        if (typeof result === "string") {
+            setEmployeeList(prev => [...prev, result]);
             return result;
+            
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                return error.message;
+            }
+            return "An unexpected error occurred";
         }
-
-        setEmployeeList(prev => [...prev, result]);
-        return result;
     };
 
     return(
