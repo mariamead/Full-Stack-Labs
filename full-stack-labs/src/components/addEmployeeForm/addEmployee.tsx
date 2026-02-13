@@ -21,6 +21,9 @@ export function AddEmployeeForm({
         const validateName = name.validateForm();
         const validateDepartment = department.validateForm();
 
+        name.setMessage(validateName.message ?? null);
+        department.setMessage(validateDepartment.message ?? null);
+
         if(!validateName.isValid || !validateDepartment.isValid) {
             return;
         }
@@ -71,7 +74,6 @@ export function AddEmployeeForm({
             </div>
 
             <input type="submit" className="submitButton"
-            disabled={!name.value || !department.value}
             />
 
         </form>
