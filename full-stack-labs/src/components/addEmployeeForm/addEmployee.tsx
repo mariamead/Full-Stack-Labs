@@ -1,54 +1,64 @@
-import { useState } from "react";
-import type { EmployeesDepartments } from "../../data/employeesAndDepartments";
+import type { EmployeesDepartments } from "../../apis/employeesAndDepartments";
+import { useFormInput } from "../../hooks/useFormInput";
 import "./addEmployee.css"
+import {validateDepartment, validateName} from "../../services/employeeService";
 
 export function AddEmployeeForm({
     departments,
+    EmployeeList,
     addEmployee,
 }: {
     departments: string[];
-    addEmployee: (employee: EmployeesDepartments) => void
+    EmployeeList: EmployeesDepartments[],
+    addEmployee: (employee: EmployeesDepartments) => Promise<string | EmployeesDepartments | null>;
 }) {
-    const [name, setName] = useState<string>("");
-    const [department, setDepartment] = useState<string>("");
-    const [error, setError] = useState<string>("");
+    const name = useFormInput(validateName);
+    const department = useFormInput(validateDepartment);
 
-    const formSubmit = (event:React.FormEvent<HTMLFormElement>) => {
+    const formSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setError("");
 
-        if(name.trim().length < 3) {
-            setError("Name must be longer then 3 characters.");
+        const validateName = name.validateForm();
+        const validateDepartment = department.validateForm();
+
+        if(!validateName.isValid || !validateDepartment.isValid) {
             return;
         }
+        const duplicate = EmployeeList.some(
+            emp => emp.name === name.value 
+        )
 
-        if(!departments.includes(department)) {
-            setError("Please select a department");
+        if(duplicate) {
+            name.setMessage(`Employee ${name.value} already exists.`);
             return;
         }
+       
+        await addEmployee(
+            {name: name.value, department: department.value},
+        );
 
-        addEmployee({name, department});
-        setName("");
-        setDepartment("");
-
+        name.setValue("");
+        department.setValue("");
     };
 
     return(
         <form onSubmit={formSubmit} className="addEmployee">
+            <h3>Add Employee</h3>
             <div className="inputField">
                 <label>Employee Name:</label>
                     <input
                         type="text"
                         className="textbox"
-                        value={name}
-                        onChange={(event) => setName(event.target.value)}
+                        value={name.value}
+                        onChange={name.onChange}
                     />
+                    {name.message && <p className="error">{name.message}</p>}
             </div>
             <div className="inputField">
                 <label>Department:</label>
                     <select
-                        value={department}
-                        onChange={(event) => setDepartment(event.target.value)}
+                        value={department.value}
+                        onChange={department.onChange}
                     >
                         <option value="">Select Department</option>
                         {departments.map((dept) => (
@@ -57,13 +67,11 @@ export function AddEmployeeForm({
                             </option>
                         ))}
                     </select>
+                    {department.message && <p className="error">{department.message}</p>}
             </div>
 
-            <div>
-                {error && <p>{error}</p>}
-            </div>
             <input type="submit" className="submitButton"
-            disabled={!name || !department}
+            disabled={!name.value || !department.value}
             />
 
         </form>

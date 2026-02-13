@@ -1,5 +1,5 @@
 import { OrganizationList } from "../components/organization/organization";
-import { organizationData } from "../data/leadershipManagement";
+import { organizationData } from "../apis/leadershipManagement";
 
 export function Organization() {
     return(

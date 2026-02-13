@@ -14,7 +14,7 @@
 }
 
 
-.addEmployee label {
+.addEmployee label, h3 {
     margin: 10px;
     font-size: 18px;
     font-family: sans-serif;
@@ -40,4 +40,9 @@
     line-height: 34px;
     background-color:  rgb(2, 2, 70);
     color: white;
+}
+
+.error {
+    font-weight: bold;
+    color: darkred;
 }
