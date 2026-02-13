@@ -1,31 +1,11 @@
 import { employees } from "./employeesAndDepartments";
 import type { EmployeesDepartments } from "./employeesAndDepartments";
 
-type Departments = Record<string, string[]>;
 
 export function fetchAllEmployees(): EmployeesDepartments[] {
     return[...employees];
 }
 
-//Grouping data here: Employees by their departments 
-export function fetchEmployeesByDepartments(
-    employees: EmployeesDepartments[]
-): Departments {
-    const departments: Departments = {};
-
-    employees.forEach(employee => {
-        if(!departments[employee.department]) {
-            //makes empty array
-            departments[employee.department] = [];
-        }
-        // Adds each employee to their designated department
-        departments[employee.department] = [
-            ...departments[employee.department], 
-            employee.name
-        ];
-    });
-    return departments;
-}
 
 export async function createEmployee(
     newEmployee: EmployeesDepartments

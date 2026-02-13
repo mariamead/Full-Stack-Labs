@@ -38,6 +38,7 @@ export function useFormInput(
         onChange,
         setValue,
         message,
+        setMessage,
         validateForm
     };
 }

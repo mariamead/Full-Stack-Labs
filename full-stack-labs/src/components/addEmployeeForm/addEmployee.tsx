@@ -5,9 +5,11 @@ import {validateDepartment, validateName} from "../../services/employeeService";
 
 export function AddEmployeeForm({
     departments,
+    EmployeeList,
     addEmployee,
 }: {
     departments: string[];
+    EmployeeList: EmployeesDepartments[],
     addEmployee: (employee: EmployeesDepartments) => Promise<string | EmployeesDepartments | null>;
 }) {
     const name = useFormInput(validateName);
@@ -22,9 +24,18 @@ export function AddEmployeeForm({
         if(!validateName.isValid || !validateDepartment.isValid) {
             return;
         }
-        
-        await addEmployee({name: name.value, department: department.value});
+        const duplicate = EmployeeList.some(
+            emp => emp.name === name.value 
+        )
 
+        if(duplicate) {
+            name.setMessage(`Employee ${name.value} already exists.`);
+            return;
+        }
+       
+        await addEmployee(
+            {name: name.value, department: department.value},
+        );
 
         name.setValue("");
         department.setValue("");

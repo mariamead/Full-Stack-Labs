@@ -1,4 +1,4 @@
-import { createEmployee, fetchAllEmployees, fetchEmployeesByDepartments } from "../apis/employeeRepository";
+import { createEmployee, fetchAllEmployees } from "../apis/employeeRepository";
 import type { EmployeesDepartments } from "../apis/employeesAndDepartments";
 import type { Validation } from "../hooks/useFormInput";
 
@@ -6,14 +6,14 @@ import type { Validation } from "../hooks/useFormInput";
 /**
  * Function to validate the name input for the form business logic
  * @param name - Name input from form
- * @returns - True is valid
+ * @returns - True if valid
  */
 export const validateName = (name: string): Validation => {
         if (name.length < 3) {
             return { isValid: false, message: "Name must be at least 3 characters." };
         }
         return { isValid: true };
-    }
+}
 
 /**
  * This is a function to validate the department selection from the form
@@ -21,10 +21,8 @@ export const validateName = (name: string): Validation => {
  * @returns True if valid
  */
 export const validateDepartment = (department: string): Validation => {
-        const allEmployees = fetchAllEmployees();
-
-        const departmentCheck = fetchEmployeesByDepartments(allEmployees);
-        const validDepartments = Object.keys(departmentCheck);
+        const departmentCheck = fetchAllEmployees();
+        const validDepartments = departmentCheck.map(employees => employees.department);
 
         if (department === "" || !validDepartments.includes(department)) {
             return { isValid: false, message: "Please select a valid department." };
@@ -40,9 +38,10 @@ export const validateDepartment = (department: string): Validation => {
  * @returns null if all valid
  */
 export function validateEmployee(
-    name: string,
-    department: string
+    newEmployee: EmployeesDepartments
 ): string | null {
+    const { name, department } = newEmployee
+
     const nameCheck = validateName(name);
     if (!nameCheck.isValid) {
         return nameCheck.message ?? "Invalid Name";
@@ -52,8 +51,8 @@ export function validateEmployee(
     if (!deptCheck.isValid) {
         return deptCheck.message ?? "Invalid Department";
     }
-    
-     return null;
+
+    return null;
     
 }
 
@@ -64,15 +63,16 @@ export function validateEmployee(
  * @returns -The created employee to the component
  */
 export async function addEmployee(
-    employee: EmployeesDepartments
+    employee: EmployeesDepartments,
 ): Promise<EmployeesDepartments | string> {
-    const error = validateEmployee(employee.name, employee.department);
+    const error = validateEmployee(employee);
 
     if(error){
         return error;
     }
 
     const createdEmployee = await createEmployee(employee);
+    console.log("createEmployee called for", employee.name);//was debugging here
     return createdEmployee;
 
 }

@@ -3,13 +3,21 @@ import type { EmployeesDepartments } from "../../apis/employeesAndDepartments";
 import { employees } from "../../apis/employeesAndDepartments"
 import { AddEmployeeForm } from "../addEmployeeForm/addEmployee";
 import { addEmployee as addEmployeeService } from "../../services/employeeService";
-import { fetchEmployeesByDepartments } from "../../apis/employeeRepository";
 
+type Departments = Record<string, string[]>;
 
 function EmployeeList() {
     const [employeeList, setEmployeeList] = useState<EmployeesDepartments[]>(employees);
 
-    const departments = fetchEmployeesByDepartments(employeeList);
+    const departments: Departments = {};
+    employeeList.forEach(employee => {
+        if(!departments[employee.department]) {
+            //makes empty array
+            departments[employee.department] = [];
+        }
+        departments[employee.department].push(employee.name);
+    });
+    
 
     const addEmployee = async (
         employee: EmployeesDepartments
@@ -21,7 +29,14 @@ function EmployeeList() {
                 return result;
             }
 
-            setEmployeeList(prev => [...prev, result]);
+            setEmployeeList(prev => [
+                ...prev.filter(
+                    employee => 
+                        employee.name !== result.name || employee.department !== result.department),
+                    {...result }
+            ]);
+
+
             return result;
             
         } catch (error: unknown) {
@@ -36,8 +51,9 @@ function EmployeeList() {
         <>
               {/*Add Form here*/}
             <AddEmployeeForm
-                departments={Object.keys(departments)}
+                EmployeeList={employeeList}
                 addEmployee={addEmployee}
+                departments={Object.keys(departments)}
             />
 
             {/* Key: Departments with an array of employees to be displayed in a list*/}
@@ -45,8 +61,8 @@ function EmployeeList() {
                 <section className="department" key={departmentName}>
                     <h2>{departmentName}</h2>
                     <ul>
-                        {employees.map(name => (
-                            <li key={name}>{name}</li>
+                        {employees.map((name) => (
+                            <li key={`${name}-${departmentName}`}>{name}</li>
                         ))}
                     </ul>
                 </section>
