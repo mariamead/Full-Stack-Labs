@@ -1,4 +1,4 @@
-import { createEmployee, fetchAllEmployees } from "../apis/employeeRepository";
+import { createEmployee } from "../apis/employeeRepository";
 import type { EmployeesDepartments } from "../apis/employeesAndDepartments";
 import type { Validation } from "../hooks/useFormInput";
 
@@ -21,14 +21,12 @@ export const validateName = (name: string): Validation => {
  * @returns True if valid
  */
 export const validateDepartment = (department: string): Validation => {
-        const departmentCheck = fetchAllEmployees();
-        const validDepartments = departmentCheck.map(employees => employees.department);
-
-        if (department === "" || !validDepartments.includes(department)) {
-            return { isValid: false, message: "Please select a valid department." };
+        if (!department) {
+            return { isValid: false, message: "Please select a department." };
         }
         return { isValid: true };
 }
+
 
 
 /**
