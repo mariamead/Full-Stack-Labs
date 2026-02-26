@@ -1,0 +1,48 @@
+.addOrganization{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 10px;
+    background-color:  rgb(234, 234, 247);
+}
+
+
+.inputField {
+  display: flex;
+  flex-direction: center;
+  gap: 10px;
+}
+
+
+.addOrganization label, h3 {
+    margin: 10px;
+    font-size: 18px;
+    font-family: sans-serif;
+    font-weight: bold;
+    box-sizing: border-box;
+    
+}
+
+.textbox, select {
+    margin-top: 5px;
+    height: 34px;
+    padding: 0 10px;
+    font-size: 14px;
+    border: 1px solid #030303;
+    border-radius: 4px;
+    gap: 10px;
+}
+
+.submitButton {
+    height: 35px;
+    padding: 0 16px;
+    font-size: 16px;
+    line-height: 34px;
+    background-color:  rgb(2, 2, 70);
+    color: white;
+}
+
+.error {
+    font-weight: bold;
+    color: darkred;
+}
