@@ -30,12 +30,15 @@ export const validateRole = (
     role: string,
     organizationData: Role[]
 ): Validation => {
-    if(!role) {
+    if(!role.trim()) {
         return {isValid: false, message: "Role cannot be blank."}
     }
 
+    const normalize = (role:string) => role.toLowerCase().trim();
+    const normalizedRole = normalize(role);
+
     const isAlreadyOccupied = organizationData.some(
-        (person) => person.role === role
+        (person) => normalize(person.role).includes(normalizedRole)
     );
     if(isAlreadyOccupied) {
         return {

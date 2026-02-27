@@ -24,7 +24,13 @@ export function OrganizationList(
                 return result;
             }
 
-            setOrganizationList(prev => [...prev, result]);
+            setOrganizationList(prev => [
+                ...prev.filter(org => 
+                    org.firstName !== result.firstName ||
+                    org.lastName !== result.lastName ||
+                    org.role !== result.role
+                ), {...result}]);
+
             return result;
         } catch (error: unknown) {
             if(error instanceof Error) {
