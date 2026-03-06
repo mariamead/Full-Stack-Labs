@@ -1,4 +1,4 @@
-import type { Role } from "../../apis/leadershipManagement";
+import type { FrontendRole as Role } from "@shared/types/frontend-Role";
 import { useState } from "react";
 import "./organization.css";
 import { AddPersonToOrganization as addPersonService} from "../../services/organizationService";

@@ -1,8 +1,4 @@
-
-export type EmployeesDepartments ={
-    name: string;
-    department: string;
-}
+import type { FrontendEmployeeDepartments as EmployeesDepartments } from "@shared/types/frontend-EmployeeDepartments";
 
 export const employees: EmployeesDepartments[] = [
   { name: "Zoë Robins", department: "Administration" },

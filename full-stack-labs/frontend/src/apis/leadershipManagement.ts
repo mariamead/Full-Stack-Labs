@@ -1,10 +1,4 @@
-
-export type Role = {
-  id?: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-}
+import type { FrontendRole as Role } from "@shared/types/frontend-Role";
 
 export const organizationData: Role[] = [
   { id: "1", firstName: "Jo-Anne", lastName: "Sinclair", role: "CEO/Chair of Board" },

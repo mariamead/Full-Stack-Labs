@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { Layout } from "./components/layout/layout";
 import EmployeeList from "./components/employeeList/employeeList";
-import type { Role } from "./apis/leadershipManagement";
+import type { FrontendRole as Role } from "@shared/types/frontend-Role";
 import { OrganizationList } from "./components/organization/organization";
 import { organizationData } from "./apis/leadershipManagement";
 

@@ -1,5 +1,5 @@
 import { organizationData } from "./leadershipManagement";
-import type { Role } from "./leadershipManagement";
+import type { FrontendRole as Role } from "@shared/types/frontend-Role";
 
 export function fetchAllOrganization(): Role[] {
     return structuredClone(organizationData);

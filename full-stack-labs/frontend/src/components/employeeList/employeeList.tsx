@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { EmployeesDepartments } from "../../apis/employeesAndDepartments";
+import type { FrontendEmployeeDepartments as EmployeesDepartments } from "@shared/types/frontend-EmployeeDepartments";
 import { employees } from "../../apis/employeesAndDepartments"
 import { AddEmployeeForm } from "../addEmployeeForm/addEmployee";
 import { addEmployee as addEmployeeService } from "../../services/employeeService";

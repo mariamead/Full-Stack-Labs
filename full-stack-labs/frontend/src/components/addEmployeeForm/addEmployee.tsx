@@ -1,4 +1,4 @@
-import type { EmployeesDepartments } from "../../apis/employeesAndDepartments";
+import type { FrontendEmployeeDepartments as EmployeesDepartments } from "@shared/types/frontend-EmployeeDepartments";
 import { useFormInput } from "../../hooks/useFormInput";
 import "./addEmployee.css"
 import {validateDepartment, validateName} from "../../services/employeeService";
