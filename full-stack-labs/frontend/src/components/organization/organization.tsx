@@ -3,16 +3,10 @@ import { useState } from "react";
 import "./organization.css";
 import { AddPersonToOrganization as addPersonService} from "../../services/organizationService";
 import { AddToOrganizationForm } from "../addToOrganization/addToOrganization";
+import { organizationData } from "../../apis/leadershipManagement";
 
-export function OrganizationList(
-    {
-        organization,
-    }:
-    {
-        organization: Role[]
-    }
-) {
-    const [organizationList, setOrganizationList] = useState<Role[]>(organization);
+export function OrganizationList() {
+    const [organizationList, setOrganizationList] = useState<Role[]>(organizationData);
 
     const AddPerson = async (
         person: Omit<Role, "id">
