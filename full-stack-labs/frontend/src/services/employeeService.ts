@@ -1,5 +1,5 @@
 import { createEmployee } from "../apis/employeeRepository";
-import type { EmployeesDepartments } from "../apis/employeesAndDepartments";
+import type { FrontendEmployeeDepartments as EmployeesDepartments } from "@shared/types/frontend-EmployeeDepartments";
 import type { Validation } from "../hooks/useFormInput";
 
 

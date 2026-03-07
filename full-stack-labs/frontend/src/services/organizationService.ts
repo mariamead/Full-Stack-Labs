@@ -1,4 +1,5 @@
-import { organizationData, type Role } from "../apis/leadershipManagement";
+import type { FrontendRole as Role } from "@shared/types/frontend-Role";
+import { organizationData } from "../apis/leadershipManagement";
 import type { Validation } from "../hooks/useFormInput";
 import { createPerson } from "../apis/organizationRepo";
 
