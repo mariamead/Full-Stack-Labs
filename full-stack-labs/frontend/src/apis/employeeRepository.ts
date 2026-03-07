@@ -1,5 +1,5 @@
 import { employees } from "./employeesAndDepartments";
-import type { EmployeesDepartments } from "./employeesAndDepartments";
+import type { FrontendEmployeeDepartments as EmployeesDepartments } from "@shared/types/frontend-EmployeeDepartments";
 
 
 export function fetchAllEmployees(): EmployeesDepartments[] {
