@@ -1,0 +1,29 @@
+import Joi, { ObjectSchema } from "Joi";
+
+export const organizationRoleSchema: ObjectSchema = Joi.object({
+    id: Joi.string().optional(),
+    firstName: Joi.string().required().min(3).messages({
+        "any.required": "First name is required",
+        "string.empty": "First name cannot be blank",
+        "string.min": "First name must have minimum length of 3."
+    }),
+    lastName: Joi.string().required().messages({
+        "any.required": "Last name is required",
+        "string.empty": "Last name cannot be empty"
+    }),
+    role: Joi.string().required().messages({
+        "any.required": "Role is required",
+        "string.empty": "Role cannot be blank",
+    })
+})
+
+
+// This is to validate and check it the role is unique across the list of objects.
+export const organizationRoleListSchema = Joi.array()
+    .items(organizationRoleSchema)
+    .unique('role')
+    .messages({
+        "array.unique": "Each role must be unique."
+    });
+
+
