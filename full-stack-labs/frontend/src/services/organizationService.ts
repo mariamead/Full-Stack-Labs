@@ -1,7 +1,6 @@
 import type { FrontendRole as Role } from "@shared/types/frontend-Role";
-import { organizationData } from "../apis/leadershipManagement";
 import type { Validation } from "../hooks/useFormInput";
-import { createPerson } from "../apis/organizationRepo";
+import { createPerson, fetchAllOrganization } from "../apis/organizationRepo";
 
 /**
  * This function validates first name to ensure its longer then 3 characters.
@@ -57,7 +56,8 @@ export const validateRole = (
  * @returns - null is all valid
  */
 export function validatePerson(
-    newPerson: Role
+    newPerson: Role,
+    organizationData: Role[]
 ): string | null {
     const { firstName, lastName, role } = newPerson;
 
@@ -85,9 +85,10 @@ export function validatePerson(
  * @returns - The new created person in the organization data
  */
 export async function AddPersonToOrganization(
-    person: Omit<Role, "id">
+    person: Role
 ): Promise<Role | string> {
-    const error = validatePerson(person);
+    const organizationData: Role[] = await fetchAllOrganization();
+    const error = validatePerson(person as Role, organizationData);
 
     if(error) {
         return error;

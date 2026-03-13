@@ -8,10 +8,11 @@
       "outDir": "./dist",
       "sourceMap": true,
       "lib": ["ESNext"],
+      "baseUrl": ".",
       "paths": {
-        "*": ["*"]
+        "@shared/*": ["../../shared/*"]
       }
     },
-    "include": ["src/**/*", "tests/**/*"],
+    "include": ["src/**/*", "tests/**/*", "../../shared"],
     "exclude": ["node_modules", "dist"]
 }

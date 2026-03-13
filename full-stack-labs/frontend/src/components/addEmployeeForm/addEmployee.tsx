@@ -27,6 +27,7 @@ export function AddEmployeeForm({
         if(!validateName.isValid || !validateDepartment.isValid) {
             return;
         }
+        
         const duplicate = EmployeeList.some(
             emp => emp.name === name.value 
         )

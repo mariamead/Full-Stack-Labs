@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction} from "express";
 import { AppError } from "../errors/errors";
 import { errorResponse } from "../models/responseModel";
-import { HTTP_STATUS } from "full-stack-labs/backend/src/constants/httpConstants";
+import { HTTP_STATUS } from "../../../constants/httpConstants";
 
 /**
  * This code has come from my backend API project from last term.

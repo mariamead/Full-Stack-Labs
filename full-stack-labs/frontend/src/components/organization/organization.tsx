@@ -1,12 +1,26 @@
 import type { FrontendRole as Role } from "@shared/types/frontend-Role";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./organization.css";
 import { AddPersonToOrganization as addPersonService} from "../../services/organizationService";
 import { AddToOrganizationForm } from "../addToOrganization/addToOrganization";
-import { organizationData } from "../../apis/leadershipManagement";
+import { organizationData } from "../../../../backend/src/data/leadershipManagement";
+import { fetchAllOrganization } from "../../apis/organizationRepo";
 
 export function OrganizationList() {
     const [organizationList, setOrganizationList] = useState<Role[]>(organizationData);
+
+    useEffect(() => {
+                    console.log("useEffect running to fetch employees");
+                    const loadRoles = async () => {
+                    try {
+                        const data = await fetchAllOrganization();
+                        setOrganizationList(data);
+                    } catch (error) {
+                        console.error("Failed to fetch Roles:", error);
+                    }
+                    };
+                    loadRoles();
+                }, []);
 
     const AddPerson = async (
         person: Omit<Role, "id">
@@ -18,12 +32,7 @@ export function OrganizationList() {
                 return result;
             }
 
-            setOrganizationList(prev => [
-                ...prev.filter(org => 
-                    org.firstName !== result.firstName ||
-                    org.lastName !== result.lastName ||
-                    org.role !== result.role
-                ), {...result}]);
+            setOrganizationList(prev => [...prev, result]);
 
             return result;
         } catch (error: unknown) {

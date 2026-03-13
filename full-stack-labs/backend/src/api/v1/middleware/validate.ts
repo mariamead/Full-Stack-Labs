@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { ObjectSchema } from "Joi";
 
 import { MiddlewareFunction, RequestData } from "../types/express";
-import { HTTP_STATUS } from "full-stack-labs/backend/src/constants/httpConstants";
+import { HTTP_STATUS } from "../../../constants/httpConstants";
 
 export const validate = <T>(schema: ObjectSchema<T>, data:T): void => {
     const { error } = schema.validate(data, {abortEarly: false});

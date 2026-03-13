@@ -1,24 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { FrontendEmployeeDepartments as EmployeesDepartments } from "@shared/types/frontend-EmployeeDepartments";
-import { employees } from "../../apis/employeesAndDepartments"
+import { employees } from "../../../../backend/src/data/employeesAndDepartments";
 import { AddEmployeeForm } from "../addEmployeeForm/addEmployee";
 import { addEmployee as addEmployeeService } from "../../services/employeeService";
+import { fetchAllEmployees } from "../../apis/employeeRepository";
 
 type Departments = Record<string, string[]>;
 
 function EmployeeList() {
     const [employeeList, setEmployeeList] = useState<EmployeesDepartments[]>(employees);
 
-    const departments: Departments = {};
-    employeeList.forEach(employee => {
-        if(!departments[employee.department]) {
-            //makes empty array
-            departments[employee.department] = [];
+    useEffect(() => {
+        console.log("useEffect running to fetch employees");
+        const loadEmployees = async () => {
+        try {
+            const data = await fetchAllEmployees();
+            setEmployeeList(data);
+        } catch (error) {
+            console.error("Failed to fetch employees:", error);
         }
-        departments[employee.department].push(employee.name);
-    });
+        };
+        loadEmployees();
+    }, []);
     
-
     const addEmployee = async (
         employee: EmployeesDepartments
     ): Promise<string | EmployeesDepartments> => {
@@ -29,13 +33,8 @@ function EmployeeList() {
                 return result;
             }
 
-            setEmployeeList(prev => [
-                ...prev.filter(
-                    employee => 
-                        employee.name !== result.name || employee.department !== result.department),
-                    {...result }
-            ]);
-
+            //setEmployeeList(prev => [...prev, result]);
+            setEmployeeList(prev => [...prev, result]);
 
             return result;
             
@@ -46,6 +45,16 @@ function EmployeeList() {
             return "An unexpected error occurred";
         }
     };
+
+    // Grouping employees by department
+    const departments: Departments = {};
+    employeeList.forEach(employee => {;
+        if(!departments[employee.department]) {
+            //makes empty array
+            departments[employee.department] = [];
+        }
+        departments[employee.department].push(employee.name);
+    });
 
     return(
         <>

@@ -16,14 +16,3 @@ export const organizationRoleSchema: ObjectSchema = Joi.object({
         "string.empty": "Role cannot be blank",
     })
 })
-
-
-// This is to validate and check it the role is unique across the list of objects.
-export const organizationRoleListSchema = Joi.array()
-    .items(organizationRoleSchema)
-    .unique('role')
-    .messages({
-        "array.unique": "Each role must be unique."
-    });
-
-

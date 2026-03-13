@@ -12,5 +12,5 @@
     "noEmit": true,
     "allowImportingTsExtensions": true
   },
-  "include": ["src", "test",  "../../shared"]
+  "include": ["src", "test",  "../../shared", "../backend/src/data/employeesAndDepartments.ts", "../backend/src/data/leadershipManagement.ts"]
 }
