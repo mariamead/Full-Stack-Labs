@@ -4,8 +4,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import corsOptions from "../config/cors";
-import employeeDepartmentsRoutes from "../src/api/v1/routes/employeeDepartmentsRoutes";
-import organizationRolesRoutes from "../src/api/v1/routes/organizationRolesRoutes";
+import employeeDepartmentsRoutes from "./api/v1/routes/employeeDepartmentsRoutes";
+import organizationRolesRoutes from "./api/v1/routes/organizationRolesRoutes";
 import errorHandler from "./api/v1/middleware/errorHandler";
 
 const app: Express = express();
