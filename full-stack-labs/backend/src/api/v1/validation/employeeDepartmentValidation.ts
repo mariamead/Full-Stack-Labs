@@ -1,4 +1,4 @@
-import Joi, { ObjectSchema } from "Joi";
+import Joi, { ObjectSchema } from "joi";
 
 export const employeeDepartmentsSchema: ObjectSchema = Joi.object({
     name: Joi.string().required().messages({

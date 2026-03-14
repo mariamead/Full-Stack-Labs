@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ObjectSchema } from "Joi";
+import { ObjectSchema } from "joi";
 
 import { MiddlewareFunction, RequestData } from "../types/express";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
