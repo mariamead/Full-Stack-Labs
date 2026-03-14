@@ -1,0 +1,7 @@
+{
+    "files": [],
+    "references": [
+        {"path": "./full-stack-labs/backend"},
+        {"path": "./full-stack-labs/frontend"}
+    ]
+}
