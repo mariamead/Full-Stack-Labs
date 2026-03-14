@@ -21,7 +21,7 @@ app.use(express.json());
 // add Cross-Origin Resource Sharing middleware
 // This will refuse requests from origins that do not fulfill corsOptions requirements
 // see https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS
-app.use(cors(corsOptions()));
+app.use(cors(corsOptions));
 
 // Listening for requests 
 app.get("/",  (_req, res) => {
