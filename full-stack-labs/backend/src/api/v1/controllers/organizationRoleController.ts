@@ -36,7 +36,7 @@ export const createRole = async(
                 lastName,
                 role
         });
-            res.status(HTTP_STATUS.OK).json(
+            res.status(HTTP_STATUS.CREATED).json(
                 successResponse(newEmployee, "New role created successfully.")
             );
         }

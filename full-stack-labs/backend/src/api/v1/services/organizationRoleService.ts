@@ -1,4 +1,4 @@
-import type { FrontendRole } from "../../../../../../shared/types/frontend-Role";
+import type { FrontendRole } from "@shared/types/frontend-Role";
 import { organizationData } from "../../../data/leadershipManagement";
 
 export const getallRoles = async(): Promise<FrontendRole[]> => {
