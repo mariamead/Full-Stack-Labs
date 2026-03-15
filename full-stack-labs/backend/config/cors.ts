@@ -12,7 +12,7 @@ const corsOptions: CorsOptions = {
         if(! origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
-            callback(new Error("Not allowed by CORS restriction"), false);
+            callback(null, false);
         }
        
     },
