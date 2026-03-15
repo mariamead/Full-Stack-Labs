@@ -29,8 +29,8 @@ app.get("/",  (_req, res) => {
 });
 
 // Routes created
-app.use("/api/v1/", employeeDepartmentsRoutes);
-app.use("/api/v1/", organizationRolesRoutes);
+app.use("/api/v1", employeeDepartmentsRoutes);
+app.use("/api/v1", organizationRolesRoutes);
 
 app.use(errorHandler);
 
