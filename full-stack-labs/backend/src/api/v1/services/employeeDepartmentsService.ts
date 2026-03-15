@@ -1,4 +1,4 @@
-import type { FrontendEmployeeDepartments } from "@shared/types/frontend-EmployeeDepartments";
+import type { FrontendEmployeeDepartments } from "../../../../../../shared/types/frontend-EmployeeDepartments";
 import { employees } from "../../../data/employeesAndDepartments";
 
 export const getAllEmployees = async(): Promise<FrontendEmployeeDepartments[]> => {
