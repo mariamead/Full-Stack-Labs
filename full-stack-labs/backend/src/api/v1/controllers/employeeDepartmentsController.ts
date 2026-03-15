@@ -35,7 +35,7 @@ export const createEmployee = async(
                 name,
                 department
         });
-            res.status(HTTP_STATUS.OK).json(
+            res.status(HTTP_STATUS.CREATED).json(
                 successResponse(newEmployee, "New employee created successfully.")
             );
         }

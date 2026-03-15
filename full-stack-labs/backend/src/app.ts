@@ -23,6 +23,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
+
 // Listening for requests 
 app.get("/",  (_req, res) => {
     res.send("Got response from backend!");
