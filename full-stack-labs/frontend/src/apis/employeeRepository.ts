@@ -11,7 +11,9 @@ const EMPLOYEES_ENDPOINT = "/employees"
 
 export async function fetchAllEmployees(): Promise<EmployeesDepartments[]> {
     const employeeResponse: Response = await fetch(
-        `${BASE_URL}${EMPLOYEES_ENDPOINT}`,
+        `${BASE_URL}${EMPLOYEES_ENDPOINT}`, {
+            credentials: "include"
+        }
     );
 
     if(!employeeResponse.ok) {
@@ -33,7 +35,8 @@ export async function createEmployee(
             body: JSON.stringify({...newEmployee}),
             headers: {
                 "Content-Type": "application/json",
-            }
+            },
+            credentials: "include"
         }
     )
     const json: EmployeeDepartmentResponseJSON = await newEmployeeResponse.json();

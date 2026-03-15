@@ -11,7 +11,9 @@ const ROLES_ENDPOINT = "/roles"
 
 export async function fetchAllOrganization(): Promise<Role[]> {
     const roleResponse: Response = await fetch(
-        `${BASE_URL}${ROLES_ENDPOINT}`
+        `${BASE_URL}${ROLES_ENDPOINT}`, {
+            credentials: "include"
+        }
     );
 
     if(!roleResponse.ok) {
@@ -33,7 +35,8 @@ export async function createPerson(
             body: JSON.stringify({...newPerson}),
             headers: {
                 "Content-Type": "application/json",
-            }
+            },
+            credentials: "include"
         }
     )
     const json: RoleResponseJSON = await newRoleResponse.json();
