@@ -6,13 +6,16 @@ const corsOptions: CorsOptions = {
     origin: function(origin, callback) {
         console.log('Request Origin:', origin);
         const allowedOrigins = (process.env.FRONTEND_URL ?? '')?.split(',');
+
+        console.log(`CORS_DEBUG: Incoming_Origin:[${origin}]`);
+        console.log(`CORS_DEBUG: Allowed_List:${JSON.stringify(allowedOrigins)}`);
         
         // invoke callback (eg. next middleware) if  origin matches or no origin
         // some services (like postman) do not include an origin in their request
         if(! origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
-            callback(null, false);
+            callback(new Error(`CORS_REJECT: Origin ${origin} not in [${allowedOrigins}]`), false);
         }
        
     },
