@@ -1,23 +1,27 @@
 import { CorsOptions } from "cors";
 
-// configure the type of requests that CORS will allow to be made to the backend
+
 const corsOptions: CorsOptions = {
-    // throw an error if the request does not come from the list of allowed origins
     origin: function(origin, callback) {
-        console.log('Request Origin:', origin);
-        const allowedOrigins = (process.env.FRONTEND_URL ?? '')?.split(',');
+        if (!origin) {
+            return callback(null, true);
+        }
+
+        const value = process.env.FRONTEND_URL || '';
+        const allowedOrigins = value.split(',').map(url => 
+            url.trim().replace(/\/$/, "")
+        );
+
+        const cleanOrigin = origin.trim().replace(/\/$/, "");
 
         console.log(`CORS_DEBUG: Incoming_Origin:[${origin}]`);
         console.log(`CORS_DEBUG: Allowed_List:${JSON.stringify(allowedOrigins)}`);
         
-        // invoke callback (eg. next middleware) if  origin matches or no origin
-        // some services (like postman) do not include an origin in their request
-        if(! origin || allowedOrigins.includes(origin)) {
+        if(allowedOrigins.includes(cleanOrigin)) {
             callback(null, true);
         } else {
-            callback(new Error(`CORS_REJECT: Origin ${origin} not in [${allowedOrigins}]`), false);
+            callback(new Error(`CORS_REJECT: Origin ${origin} not in [${allowedOrigins}]`));
         }
-       
     },
     // allow specific headers, methods, and inclusion of credentials
     allowedHeaders:['Content-Type', 'Authorization'],
