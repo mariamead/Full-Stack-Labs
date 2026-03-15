@@ -1,7 +1,9 @@
 import express, {Express} from "express";
+import dotenv from "dotenv";
+//uses .env variables
+dotenv.config();
 import morgan from "morgan";
 import cors from "cors";
-import dotenv from "dotenv";
 
 import corsOptions from "../config/cors";
 import employeeDepartmentsRoutes from "../src/api/v1/routes/employeeDepartmentsRoutes";
@@ -9,9 +11,6 @@ import organizationRolesRoutes from "../src/api/v1/routes/organizationRolesRoute
 import errorHandler from "./api/v1/middleware/errorHandler";
 
 const app: Express = express();
-
-//uses .env variables
-dotenv.config();
 
 app.use(morgan("combined"));
 
