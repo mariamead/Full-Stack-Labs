@@ -11,7 +11,7 @@ const EMPLOYEES_ENDPOINT = "/employees"
 
 export async function fetchAllEmployees(): Promise<EmployeesDepartments[]> {
     const employeeResponse: Response = await fetch(
-        `${BASE_URL}${EMPLOYEES_ENDPOINT}`
+        `${BASE_URL}${EMPLOYEES_ENDPOINT}`,
     );
 
     if(!employeeResponse.ok) {
