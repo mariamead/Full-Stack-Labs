@@ -2,18 +2,21 @@ import { CorsOptions } from "cors";
 
 const corsOptions: CorsOptions = {
     origin: function(origin, callback) {
-        console.log("CORS Check for Origin:", origin);
+        if (!origin) return callback(null, true);
         const allowed = process.env.FRONTEND_URL;
 
-        if(!origin || origin === allowed) {
+        // 3. Compare them
+        if (origin === allowed) {
             callback(null, true);
         } else {
-            // Log the mismatch so you can see the typo
-            console.error(`CORS REJECTED: [${origin}] does not match [${allowed}]`);
-            callback(new Error("Not allowed by CORS"), false);
+            // Log the mismatch so you can FINALLY see it in Vercel
+            console.error(`CORS FAIL: Incoming [${origin}] does not match Env [${allowed}]`);
+            
+            // Pass 'false' instead of an Error object to prevent 500 crashes
+            callback(null, false); 
         }
     },
-    allowedHeaders:['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
     credentials: true
 }

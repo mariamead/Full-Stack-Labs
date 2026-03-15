@@ -23,6 +23,9 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
+// allows express to parse json
+app.use(express.json());
+
 
 // Listening for requests 
 app.get("/",  (_req, res) => {
