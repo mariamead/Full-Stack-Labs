@@ -22,6 +22,7 @@ app.use(express.json());
 // This will refuse requests from origins that do not fulfill corsOptions requirements
 // see https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 // Listening for requests 
 app.get("/",  (_req, res) => {
