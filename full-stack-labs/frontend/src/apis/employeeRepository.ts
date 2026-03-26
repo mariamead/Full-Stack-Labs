@@ -7,7 +7,7 @@ type EmployeeDepartmentResponseJSON = {message: String, data: EmployeesDepartmen
 // Base url for backend
 // Vite provides this value from the .env file rather than dotenv package
 const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1`;
-const EMPLOYEES_ENDPOINT = "/employees"
+const EMPLOYEES_ENDPOINT = "/employees";
 
 export async function fetchAllEmployees(): Promise<EmployeesDepartments[]> {
     const employeeResponse: Response = await fetch(
