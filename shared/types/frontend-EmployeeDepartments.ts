@@ -1,5 +1,5 @@
 export type FrontendEmployeeDepartments = {
-    id?: string
+    id?: string;
     name: string;
     department: string;
 }
