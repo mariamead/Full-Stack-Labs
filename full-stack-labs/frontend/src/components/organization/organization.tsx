@@ -3,24 +3,23 @@ import { useState, useEffect } from "react";
 import "./organization.css";
 import { AddPersonToOrganization as addPersonService} from "../../services/organizationService";
 import { AddToOrganizationForm } from "../addToOrganization/addToOrganization";
-import { organizationData } from "../../../../backend/src/data/leadershipManagement";
 import { fetchAllOrganization } from "../../apis/organizationRepo";
 
 export function OrganizationList() {
-    const [organizationList, setOrganizationList] = useState<Role[]>(organizationData);
+    const [organizationList, setOrganizationList] = useState<Role[]>([]);
 
     useEffect(() => {
-                    console.log("useEffect running to fetch employees");
-                    const loadRoles = async () => {
-                    try {
-                        const data = await fetchAllOrganization();
-                        setOrganizationList(data);
-                    } catch (error) {
-                        console.error("Failed to fetch Roles:", error);
-                    }
-                    };
-                    loadRoles();
-                }, []);
+        console.log("useEffect running to fetch employees");
+        const loadRoles = async () => {
+        try {
+            const data = await fetchAllOrganization();
+            setOrganizationList(data);
+        } catch (error) {
+            console.error("Failed to fetch Roles:", error);
+        }
+        };
+        loadRoles();
+    }, []);
 
     const AddPerson = async (
         person: Omit<Role, "id">
