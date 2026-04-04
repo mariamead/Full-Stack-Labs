@@ -10,7 +10,7 @@ type Departments = Record<string, string[]>;
 
 function EmployeeList() {
     const [employeeList, setEmployeeList] = useState<EmployeesDepartments[]>(employees);
-    const { isSignedIn, isLoaded } = useAuth();
+    const { isSignedIn, isLoaded, getToken } = useAuth();
 
     useEffect(() => {
         console.log("useEffect running to fetch employees");
@@ -31,7 +31,12 @@ function EmployeeList() {
         employee: EmployeesDepartments
     ): Promise<string | EmployeesDepartments> => {
         try{
-            const result = await addEmployeeService(employee);
+            if ( !isSignedIn) return "You must be signed in";
+
+            const token = await getToken();
+            if(!token) throw new Error("User is not authenticated.")
+
+            const result = await addEmployeeService(employee, token);
 
             if (typeof result === "string") {
                 return result;
