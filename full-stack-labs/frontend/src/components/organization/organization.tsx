@@ -4,9 +4,11 @@ import "./organization.css";
 import { AddPersonToOrganization as addPersonService} from "../../services/organizationService";
 import { AddToOrganizationForm } from "../addToOrganization/addToOrganization";
 import { fetchAllOrganization } from "../../apis/organizationRepo";
+import { useAuth } from "@clerk/clerk-react";
 
 export function OrganizationList() {
     const [organizationList, setOrganizationList] = useState<Role[]>([]);
+    const { isSignedIn, isLoaded } = useAuth();
 
     useEffect(() => {
         console.log("useEffect running to fetch employees");
@@ -20,6 +22,8 @@ export function OrganizationList() {
         };
         loadRoles();
     }, []);
+
+    if (!isLoaded) return <div> Loading....</div>;
 
     const AddPerson = async (
         person: Omit<Role, "id">
@@ -44,10 +48,15 @@ export function OrganizationList() {
 
     return (
         <>
-            <AddToOrganizationForm
-                            organization={organizationList}
-                            AddPersonToOrganization={AddPerson}
-                        />
+            {isSignedIn ? (
+                <AddToOrganizationForm
+                    organization={organizationList}
+                    AddPersonToOrganization={AddPerson}
+                />
+            ) : (
+                <div>Please Login To Add to the Organization</div>
+            )}
+            
             <section>
                 <h2>Leadership and Management</h2>
                 <div className="organizationTable">

@@ -4,11 +4,13 @@ import { employees } from "../../../../backend/src/data/employeesAndDepartments"
 import { AddEmployeeForm } from "../addEmployeeForm/addEmployee";
 import { addEmployee as addEmployeeService } from "../../services/employeeService";
 import { fetchAllEmployees } from "../../apis/employeeRepository";
+import { useAuth } from "@clerk/clerk-react";
 
 type Departments = Record<string, string[]>;
 
 function EmployeeList() {
     const [employeeList, setEmployeeList] = useState<EmployeesDepartments[]>(employees);
+    const { isSignedIn, isLoaded } = useAuth();
 
     useEffect(() => {
         console.log("useEffect running to fetch employees");
@@ -22,6 +24,8 @@ function EmployeeList() {
         };
         loadEmployees();
     }, []);
+
+    if (!isLoaded) return <div> Loading....</div>;
     
     const addEmployee = async (
         employee: EmployeesDepartments
@@ -48,7 +52,11 @@ function EmployeeList() {
 
     // Grouping employees by department
     const departments: Departments = {};
-    employeeList.forEach(employee => {;
+    employeeList
+    .filter(employee => employee.department &&
+         employee.department.trim() !== "" &&
+        employee.department.toLowerCase() !== "unassigned")
+    .forEach(employee => {;
         if(!departments[employee.department]) {
             //makes empty array
             departments[employee.department] = [];
@@ -58,13 +66,18 @@ function EmployeeList() {
 
     return(
         <>
-              {/*Add Form here*/}
-            <AddEmployeeForm
-                EmployeeList={employeeList}
-                addEmployee={addEmployee}
-                departments={Object.keys(departments)}
-            />
-
+            {isSignedIn ? (
+                <AddEmployeeForm
+                    EmployeeList={employeeList}
+                    addEmployee={addEmployee}
+                    departments={Object.keys(departments)}
+                />
+            ): (
+                <div className="login-to-add">
+                    <p>Please Login To Add Employees</p>
+                </div>
+            )}
+    
             {/* Key: Departments with an array of employees to be displayed in a list*/}
             {Object.entries(departments).map(([departmentName, employees]) => (
                 <section className="department" key={departmentName}>
