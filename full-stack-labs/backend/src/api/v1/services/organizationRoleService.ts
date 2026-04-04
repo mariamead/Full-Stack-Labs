@@ -14,9 +14,10 @@ export const getallRoles = async(): Promise<FrontendRole[]> => {
             },
         });
         
-        const allData: FrontendRole[] = allRoleData.map((employee: {name: string; role: {roleName: string} | null }) => {
+        const allData: FrontendRole[] = allRoleData.map((employee) => {
             const nameParts = employee.name.trim().split(/\s+/);
             return{
+                id: employee.id.toString(),
                 firstName: nameParts[0] || "",
                 lastName: nameParts.length > 1 ? nameParts.slice(1).join(" ") : "",
                 role: employee.role?.roleName || "Unassigned"
@@ -42,11 +43,13 @@ export const createRole = async(roleData: {
 }): Promise<FrontendRole> => {
     try {
         const fullName = `${roleData.firstName} ${roleData.lastName}`.trim();
+        const employee = await prisma.employee.findUnique({
+            where: { name: fullName }
+        });
 
         const newRole = await prisma.role.upsert({
             where: {
-            
-                employeeId: 0 
+                employeeId: employee?.id ?? 0 
             },
             update: {}, 
             create: {
