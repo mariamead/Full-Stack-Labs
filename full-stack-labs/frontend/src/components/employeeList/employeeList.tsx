@@ -52,7 +52,11 @@ function EmployeeList() {
 
     // Grouping employees by department
     const departments: Departments = {};
-    employeeList.forEach(employee => {;
+    employeeList
+    .filter(employee => employee.department &&
+         employee.department.trim() !== "" &&
+        employee.department.toLowerCase() !== "unassigned")
+    .forEach(employee => {;
         if(!departments[employee.department]) {
             //makes empty array
             departments[employee.department] = [];
