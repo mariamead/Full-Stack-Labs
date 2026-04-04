@@ -8,7 +8,7 @@ import { useAuth } from "@clerk/clerk-react";
 
 export function OrganizationList() {
     const [organizationList, setOrganizationList] = useState<Role[]>([]);
-    const { isSignedIn, isLoaded } = useAuth();
+    const { isSignedIn, isLoaded, getToken } = useAuth();
 
     useEffect(() => {
         console.log("useEffect running to fetch employees");
@@ -26,10 +26,15 @@ export function OrganizationList() {
     if (!isLoaded) return <div> Loading....</div>;
 
     const AddPerson = async (
-        person: Omit<Role, "id">
+        person: Omit<Role, "id">,
     ): Promise<string | Role> => {
         try {
-            const result = await addPersonService(person);
+            if ( !isSignedIn) return "You must be signed in";
+
+            const token = await getToken();
+            if(!token) throw new Error("User is not authenticated.")
+
+            const result = await addPersonService(person, token);
             
             if (typeof result === "string") {
                 return result;

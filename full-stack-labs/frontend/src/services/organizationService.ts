@@ -85,7 +85,8 @@ export function validatePerson(
  * @returns - The new created person in the organization data
  */
 export async function AddPersonToOrganization(
-    person: Role
+    person: Role,
+    sessionToken: string
 ): Promise<Role | string> {
     const organizationData: Role[] = await fetchAllOrganization();
     const error = validatePerson(person as Role, organizationData);
@@ -94,6 +95,6 @@ export async function AddPersonToOrganization(
         return error;
     }
 
-    const createdPerson = await createPerson(person);
+    const createdPerson = await createPerson(person, sessionToken);
     return createdPerson;
 }

@@ -62,6 +62,7 @@ export function validateEmployee(
  */
 export async function addEmployee(
     employee: EmployeesDepartments,
+    sessionToken: string
 ): Promise<EmployeesDepartments | string> {
     const error = validateEmployee(employee);
 
@@ -69,7 +70,7 @@ export async function addEmployee(
         return error;
     }
 
-    const createdEmployee = await createEmployee(employee);
+    const createdEmployee = await createEmployee(employee, sessionToken);
     console.log("createEmployee called for", employee.name);//was debugging here
     return createdEmployee;
 
