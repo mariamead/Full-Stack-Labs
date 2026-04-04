@@ -1,7 +1,7 @@
 import type { FrontendRole } from "@shared/types/frontend-Role";
 import { AppError } from "../errors/errors";
 import  prisma  from "../../../../prisma/client";
-import { HTTP_STATUS } from "src/constants/httpConstants";
+
 
 export const getallRoles = async(): Promise<FrontendRole[]> => {
     try {
