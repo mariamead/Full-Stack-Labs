@@ -9,11 +9,14 @@ type RoleResponseJSON = {message: String, data: Role};
 const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1`;
 const ROLES_ENDPOINT = "/roles"
 
-export async function fetchAllOrganization(): Promise<Role[]> {
+export async function fetchAllOrganization(sessionToken?: string|null): Promise<Role[]> {
     const roleResponse: Response = await fetch(
-        `${BASE_URL}${ROLES_ENDPOINT}`, {
-            credentials: "include"
-        }
+        `${BASE_URL}${ROLES_ENDPOINT}`, 
+        sessionToken? {
+            headers: {
+                Authorization: `Bearer ${sessionToken}`,
+            }
+        }: undefined
     );
 
     if(!roleResponse.ok) {
@@ -26,7 +29,8 @@ export async function fetchAllOrganization(): Promise<Role[]> {
 
 
 export async function createPerson(
-    newPerson: Role
+    newPerson: Role,
+    sessionToken: string
 ): Promise<Role> {
     const newRoleResponse: Response = await fetch(
         `${BASE_URL}${ROLES_ENDPOINT}`,
@@ -35,8 +39,8 @@ export async function createPerson(
             body: JSON.stringify({...newPerson}),
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${sessionToken}`
             },
-            credentials: "include"
         }
     )
     const json: RoleResponseJSON = await newRoleResponse.json();

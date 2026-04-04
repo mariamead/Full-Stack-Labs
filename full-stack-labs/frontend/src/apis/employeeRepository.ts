@@ -9,11 +9,14 @@ type EmployeeDepartmentResponseJSON = {message: String, data: EmployeesDepartmen
 const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1`;
 const EMPLOYEES_ENDPOINT = "/employees";
 
-export async function fetchAllEmployees(): Promise<EmployeesDepartments[]> {
+export async function fetchAllEmployees(sessionToken? : string | null): Promise<EmployeesDepartments[]> {
     const employeeResponse: Response = await fetch(
-        `${BASE_URL}${EMPLOYEES_ENDPOINT}`, {
-            credentials: "include"
-        }
+        `${BASE_URL}${EMPLOYEES_ENDPOINT}`, 
+        sessionToken? {
+            headers: {
+                Authorization: `Bearer ${sessionToken}`,
+            }
+        } : undefined
     );
 
     if(!employeeResponse.ok) {
@@ -26,7 +29,8 @@ export async function fetchAllEmployees(): Promise<EmployeesDepartments[]> {
 
 
 export async function createEmployee(
-    newEmployee: EmployeesDepartments
+    newEmployee: EmployeesDepartments,
+    sessionToken: string
 ): Promise<EmployeesDepartments> {
     const newEmployeeResponse: Response = await fetch(
         `${BASE_URL}${EMPLOYEES_ENDPOINT}`,
@@ -35,8 +39,8 @@ export async function createEmployee(
             body: JSON.stringify({...newEmployee}),
             headers: {
                 "Content-Type": "application/json",
-            },
-            credentials: "include"
+                Authorization: `Bearer ${sessionToken}`
+            }
         }
     )
     const json: EmployeeDepartmentResponseJSON = await newEmployeeResponse.json();
