@@ -5,10 +5,15 @@ import { AddPersonToOrganization as addPersonService} from "../../services/organ
 import { AddToOrganizationForm } from "../addToOrganization/addToOrganization";
 import { fetchAllOrganization } from "../../apis/organizationRepo";
 import { useAuth } from "@clerk/clerk-react";
+import { useOrganization} from "@clerk/clerk-react";
 
 export function OrganizationList() {
     const [organizationList, setOrganizationList] = useState<Role[]>([]);
     const { isSignedIn, isLoaded, getToken } = useAuth();
+    const { isLoaded: orgLoaded, membership } = useOrganization();
+    const orgRole = membership?.role;
+    const isAdmin = orgRole === "admin";
+
 
     useEffect(() => {
         console.log("useEffect running to fetch employees");
@@ -23,7 +28,7 @@ export function OrganizationList() {
         loadRoles();
     }, []);
 
-    if (!isLoaded) return <div> Loading....</div>;
+    if (!isLoaded || !orgLoaded) return <div> Loading....</div>;
 
     const AddPerson = async (
         person: Omit<Role, "id">,
@@ -54,10 +59,16 @@ export function OrganizationList() {
     return (
         <>
             {isSignedIn ? (
-                <AddToOrganizationForm
-                    organization={organizationList}
-                    AddPersonToOrganization={AddPerson}
-                />
+                isAdmin ? (
+                    <AddToOrganizationForm
+                        organization={organizationList}
+                        AddPersonToOrganization={AddPerson}
+                    />
+                ) : (
+                    <div className="error">
+                        Only Admins can add people to the Organization.
+                    </div>
+                )
             ) : (
                 <div>Please Login To Add to the Organization</div>
             )}
