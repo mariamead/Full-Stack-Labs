@@ -6,13 +6,13 @@ import { AddToOrganizationForm } from "../addToOrganization/addToOrganization";
 import { fetchAllOrganization } from "../../apis/organizationRepo";
 import { useAuth } from "@clerk/clerk-react";
 import { useOrganization} from "@clerk/clerk-react";
+import { OrganizationSwitcher } from "@clerk/clerk-react";
 
 export function OrganizationList() {
     const [organizationList, setOrganizationList] = useState<Role[]>([]);
     const { isSignedIn, isLoaded, getToken } = useAuth();
     const { isLoaded: orgLoaded, membership } = useOrganization();
-    const orgRole = membership?.role;
-    const isAdmin = orgRole === "admin";
+    const isAdmin = membership?.role === "admin";
 
 
     useEffect(() => {
@@ -58,6 +58,9 @@ export function OrganizationList() {
 
     return (
         <>
+            <div className="orgSwitcher">
+                <OrganizationSwitcher />
+            </div>
             {isSignedIn ? (
                 isAdmin ? (
                     <AddToOrganizationForm
